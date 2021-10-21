@@ -22,11 +22,13 @@ const CommentForm = (props) => {
     )
 }
 
-export const CommentFormRedux = reduxForm({
+
+
+export default CommentForm;
+
+
+
+
+export const CommentReduxForm = reduxForm({
     form: 'comment'
 }) (CommentForm)
-
-
-
-
-

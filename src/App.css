@@ -2,8 +2,7 @@
 .page-footer{
     background-color: #e3f2fd;
 }
-.navbar a{color: black;}
-
+.navbar a:hover, .navbar a:visited{color: black;}
 .wrapper{
     overflow: hidden;
     display: flex;

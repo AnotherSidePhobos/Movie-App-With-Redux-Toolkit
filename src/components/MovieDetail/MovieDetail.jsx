@@ -1,27 +1,34 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router'
-import {addMovie, getAllMovies, getMovie} from './../../features/movies/movieSlice';
+import {addMovie, addComments, getAllMovies, getMovie} from './../../features/movies/movieSlice';
 import {fetchMovieById} from './../../common/api/movieApi';
 import './MovieDetail.css';
 
-import {CommentFormRedux} from './../Forms/CommentForm';
+import {CommentReduxForm} from './../Forms/CommentForm';
+import CommentForm from './../Forms/CommentForm';
 
 const MovieDetail = (props) => {
 
+
+    //const [state, setstate] = useState(initialState)
+
     const { id } = useParams();
     const movie = useSelector(getMovie)
+    const movies = useSelector(getAllMovies)
     const dispatch = useDispatch();
     useEffect(() => {
         fetchMovieById(id)
         .then((response) => dispatch(addMovie(response)))
-    }, [])
+    }, [movies])
 
     const onSubmit = (fromData) => {
-        debugger
+        dispatch(addComments({fromData, id, movies}));
+        
         console.log(fromData);
     }
+    
     return (
         <div className='container'>
             <br/>
@@ -39,8 +46,12 @@ const MovieDetail = (props) => {
                         </div>
                         <div className='comments'>
                             <h5>Stay your comment here</h5>
-                            <CommentFormRedux onSubmit={onSubmit}/>
+                            <CommentReduxForm onSubmit={onSubmit}/>
 
+
+                        </div>
+                        <div className='comments'>
+                            {movie.comments ? movie.comments : <div>no comments yet</div>}
                         </div>
                         <div className='ratio'>
                             <strong>Ratio: {movie.ratio}</strong>
